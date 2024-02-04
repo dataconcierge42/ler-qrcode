@@ -34,7 +34,9 @@ def check_in():
     if convidado:
         if convidado['presente'] == 0:
             convidados.update_one({"nome": nome}, {"$set": {"presente": 1}})
-            return render_template('welcome.html', nome=nome, empresa=convidado['empresa'])
+            return f'Nome: {nome} \r 
+                    Empresa: {convidado["empresa"]}'     
+            #render_template('welcome.html', nome=nome, empresa=convidado['empresa'])
         else:
             return 'Esse convidado já está na festa.'
     else:
