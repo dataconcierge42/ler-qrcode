@@ -1,3 +1,4 @@
+from datetime import datetime
 import os
 from flask import Flask, request, render_template, jsonify
 from pymongo import MongoClient
@@ -6,9 +7,20 @@ from bson.json_util import dumps
 app = Flask(__name__)
 
 # Configuração do cliente MongoDB
-client = MongoClient(os.getenv('mongo'))
+#client = MongoClient(os.getenv('mongo'))
+client = MongoClient('mongodb+srv://bni:bY480rj1F32SH59M@db-mongodb-nyc3-40847-b8cad3fe.mongo.ondigitalocean.com/convidados?tls=true&authSource=admin&replicaSet=db-mongodb-nyc3-40847')
 db = client.evento_db
 convidados = db.convidados
+
+# Função para verificar a data e hora da requisição
+def verificar_requisicao(data_requisicao):
+    data_limite = datetime.strptime('06/02/2024 18:30:00', '%d/%m/%Y %H:%M:%S')
+    if data_requisicao < data_limite:
+        return False
+    else:
+        return True
+
+
 
 @app.route('/convidados', methods=['GET'])
 def listar_convidados():
@@ -28,6 +40,14 @@ def listar_convidados():
 # Endpoint para verificar a presença e exibir a página HTML
 @app.route('/checkin', methods=['GET'])
 def check_in():
+    # Obter a data e hora atual
+    agora = datetime.now()
+
+    # Verifica se a requisição é válida (após a data limite)
+    if not verificar_requisicao(agora):
+        return "Requisição não autorizada!"
+
+
     nome = request.args.get('nome')
     convidado = convidados.find_one({"nome": nome})
 
@@ -67,4 +87,4 @@ def index():
     return "Servidor está funcionando!"
 
 if __name__ == '__main__':
-    app.run(debug=False)
+    app.run(debug=True)
