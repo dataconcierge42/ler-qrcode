@@ -68,4 +68,4 @@ def index():
     return "Servidor está funcionando!"
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)
