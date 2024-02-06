@@ -18,7 +18,7 @@ with open(csv_filename, mode='r', encoding='utf-8') as csvfile:
         # A chave do dicionário é o nome da pessoa
         nome = row['nome']
         # Armazena os detalhes da empresa e a presença (padrão como 0)
-        data[nome] = {'empresa': row['empresa'], 'presente': 0}
+        data[nome] = {'empresa': row['empresa'], 'presente': 0, 'recebeu_kit': 0}
 
 # Abrindo o arquivo JSON para escrita
 with open(json_filename, mode='w', encoding='utf-8') as jsonfile:

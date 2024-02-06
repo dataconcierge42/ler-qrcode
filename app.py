@@ -68,7 +68,7 @@ def add_convidados():
     if data and isinstance(data, dict):
         try:
             convidados_list = [
-                {"nome": nome, "empresa": info.get('empresa'), "presente": info.get('presente', 0)}
+                {"nome": nome, "empresa": info.get('empresa'), "presente": info.get('presente', 0), "recebeu_kit": info.get('recebeu_kit', 0)}
                 for nome, info in data.items() if isinstance(info, dict)
             ]
             if convidados_list:
